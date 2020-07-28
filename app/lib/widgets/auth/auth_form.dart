@@ -69,85 +69,87 @@ class _AuthFormState extends State<AuthForm> {
           padding: EdgeInsets.all(16),
           child: Form(
             key: _formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                if (!_isLogin) UserImagePicker(_pickedImage),
-                TextFormField(
-                  key: ValueKey('email'),
-                  autocorrect: false,
-                  textCapitalization: TextCapitalization.none,
-                  enableSuggestions: false,
-                  validator: (value) {
-                    if (value.isEmpty || !value.contains('@')) {
-                      return 'Please enter a valid email address';
-                    } else {
-                      return null;
-                    }
-                  },
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    labelText: 'Email address',
-                  ),
-                  onSaved: (value) {
-                    _userEmail = value;
-                  },
-                ),
-                if (!_isLogin)
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  if (!_isLogin) UserImagePicker(_pickedImage),
                   TextFormField(
-                    key: ValueKey('username'),
-                    autocorrect: true,
-                    textCapitalization: TextCapitalization.words,
+                    key: ValueKey('email'),
+                    autocorrect: false,
+                    textCapitalization: TextCapitalization.none,
                     enableSuggestions: false,
                     validator: (value) {
-                      if (value.isEmpty || value.length < 4) {
-                        return 'Username must be at least 4 characters long';
+                      if (value.isEmpty || !value.contains('@')) {
+                        return 'Please enter a valid email address';
                       } else {
                         return null;
                       }
                     },
+                    keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
-                      labelText: 'Username',
+                      labelText: 'Email address',
                     ),
                     onSaved: (value) {
-                      _userName = value;
+                      _userEmail = value;
                     },
                   ),
-                TextFormField(
-                  key: ValueKey('password'),
-                  validator: (value) {
-                    if (value.isEmpty || value.length < 7) {
-                      return 'Password must be at least 7 characters long';
-                    } else {
-                      return null;
-                    }
-                  },
-                  decoration: InputDecoration(labelText: 'Password'),
-                  obscureText: true,
-                  onSaved: (value) {
-                    _userPassword = value;
-                  },
-                ),
-                SizedBox(height: 12),
-                if (widget.isLoading) CircularProgressIndicator(),
-                if (!widget.isLoading)
-                  RaisedButton(
-                    child: Text(_isLogin ? 'login' : 'SignUp'),
-                    onPressed: _trySubmit,
-                  ),
-                if (!widget.isLoading)
-                  FlatButton(
-                    onPressed: () {
-                      setState(() {
-                        _isLogin = !_isLogin;
-                      });
+                  if (!_isLogin)
+                    TextFormField(
+                      key: ValueKey('username'),
+                      autocorrect: true,
+                      textCapitalization: TextCapitalization.words,
+                      enableSuggestions: false,
+                      validator: (value) {
+                        if (value.isEmpty || value.length < 4) {
+                          return 'Username must be at least 4 characters long';
+                        } else {
+                          return null;
+                        }
+                      },
+                      decoration: InputDecoration(
+                        labelText: 'Username',
+                      ),
+                      onSaved: (value) {
+                        _userName = value;
+                      },
+                    ),
+                  TextFormField(
+                    key: ValueKey('password'),
+                    validator: (value) {
+                      if (value.isEmpty || value.length < 7) {
+                        return 'Password must be at least 7 characters long';
+                      } else {
+                        return null;
+                      }
                     },
-                    child: Text(_isLogin
-                        ? 'Create new account'
-                        : 'I already have an account'),
-                    textColor: Theme.of(context).primaryColor,
-                  )
-              ],
+                    decoration: InputDecoration(labelText: 'Password'),
+                    obscureText: true,
+                    onSaved: (value) {
+                      _userPassword = value;
+                    },
+                  ),
+                  SizedBox(height: 12),
+                  if (widget.isLoading) CircularProgressIndicator(),
+                  if (!widget.isLoading)
+                    RaisedButton(
+                      child: Text(_isLogin ? 'login' : 'SignUp'),
+                      onPressed: _trySubmit,
+                    ),
+                  if (!widget.isLoading)
+                    FlatButton(
+                      onPressed: () {
+                        setState(() {
+                          _isLogin = !_isLogin;
+                        });
+                      },
+                      child: Text(_isLogin
+                          ? 'Create new account'
+                          : 'I already have an account'),
+                      textColor: Theme.of(context).primaryColor,
+                    )
+                ],
+              ),
             ),
           ),
         ),
