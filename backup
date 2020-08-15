@@ -1,0 +1,9 @@
+docker run --rm --volumes-from appwrite_clamav_1 -v $(pwd)/appwrite-backup:/appwrite-backup ubuntu tar cvf /appwrite-backup/uploads.tar /storage/uploads
+
+appwrite_traefik_1
+appwrite_appwrite_1
+appwrite_smtp_1
+appwrite_influxdb_1
+appwrite_redis_1
+appwrite_telegraf_1
+appwrite_mariadb_1

@@ -62,6 +62,10 @@ class _AuthFormState extends State<AuthForm> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    double sizedBoxHeight;
+    sizedBoxHeight = (mediaQuery.size.height / 70);
+
     return Center(
       child: Card(
         margin: EdgeInsets.all(20),
@@ -129,7 +133,7 @@ class _AuthFormState extends State<AuthForm> {
                       _userPassword = value;
                     },
                   ),
-                  SizedBox(height: 12),
+                  SizedBox(height: sizedBoxHeight),
                   if (widget.isLoading) CircularProgressIndicator(),
                   if (!widget.isLoading)
                     RaisedButton(

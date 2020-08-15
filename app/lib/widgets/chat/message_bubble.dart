@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import './message_text.dart';
+import './message_image.dart';
 
 class MessageBubble extends StatelessWidget {
   MessageBubble(this.message, this.username, this.imageUrl, this.isMe,
@@ -12,6 +14,8 @@ class MessageBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    bool isImage = false;
     return Stack(
       children: <Widget>[
         Row(
@@ -20,7 +24,9 @@ class MessageBubble extends StatelessWidget {
           children: <Widget>[
             Container(
               decoration: BoxDecoration(
-                color: isMe ? Colors.green : Theme.of(context).accentColor,
+                color: isMe
+                    ? Colors.green.withOpacity(0.5)
+                    : Theme.of(context).accentColor.withOpacity(0.5),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(12),
                   topRight: Radius.circular(12),
@@ -28,7 +34,7 @@ class MessageBubble extends StatelessWidget {
                   bottomRight: !isMe ? Radius.circular(12) : Radius.circular(0),
                 ),
               ),
-              width: 140,
+              width: mediaQuery.size.width * 0.6,
               padding: EdgeInsets.symmetric(
                 vertical: 10,
                 horizontal: 16,
@@ -37,37 +43,15 @@ class MessageBubble extends StatelessWidget {
                 vertical: 20,
                 horizontal: 8,
               ),
-              child: Column(
-                crossAxisAlignment:
-                    isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    username,
-                    style: TextStyle(
-                        color: isMe
-                            ? Colors.black
-                            : Theme.of(context).accentTextTheme.headline1.color,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    message,
-                    style: TextStyle(
-                        color: isMe
-                            ? Colors.black
-                            : Theme.of(context)
-                                .accentTextTheme
-                                .headline1
-                                .color),
-                    textAlign: isMe ? TextAlign.end : TextAlign.start,
-                  ),
-                ],
-              ),
+              child: isImage
+                  ? MessageImage(message, username, imageUrl, isMe)
+                  : MessageText(message, username, imageUrl, isMe),
             )
           ],
         ),
         Positioned(
-          left: isMe ? null : 130,
-          right: isMe ? 130 : null,
+          left: isMe ? null : (mediaQuery.size.width * 0.6) * 0.95,
+          right: isMe ? (mediaQuery.size.width * 0.6) * 0.95 : null,
           child: CircleAvatar(
             backgroundImage: NetworkImage(imageUrl),
           ),

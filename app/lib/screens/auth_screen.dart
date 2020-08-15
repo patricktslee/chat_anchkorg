@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../widgets/auth/auth_form.dart';
+import '../widgets/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -43,7 +43,6 @@ class _AuthScreenState extends State<AuthScreen> {
             .child('user_image')
             .child(authResult.user.uid + '.jpg');
         await ref.putFile(image).onComplete;
-
         final url = await ref.getDownloadURL();
 
         await Firestore.instance
@@ -83,7 +82,31 @@ class _AuthScreenState extends State<AuthScreen> {
     return PageView(children: <Widget>[
       Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
-        body: AuthForm(_submitAuthForm, _isLoading),
+        body: SafeArea(
+          child: SingleChildScrollView(
+              child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  child: Text('Firebase Login',
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 28.0,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: -1.2,
+                      )),
+                ),
+              ),
+              Center(
+                  child:
+                      Stack(children: [AuthForm(_submitAuthForm, _isLoading)])),
+            ],
+          )),
+        ),
       ),
     ]);
   }
